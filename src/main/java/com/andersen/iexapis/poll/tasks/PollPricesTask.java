@@ -12,20 +12,19 @@ import java.util.Set;
 @Component
 @Slf4j
 public class PollPricesTask {
-    private PollCurrentPricesService pollCurrentPricesService;
+    private final Set<String> symbols;
+    private final PollCurrentPricesService pollCurrentPricesService;
 
     @Autowired
-    public PollPricesTask(PollCurrentPricesService pollCurrentPricesService) {
+    public PollPricesTask(PollCurrentPricesService pollCurrentPricesService, @Value("${task.symbols}") Set<String> symbols) {
         this.pollCurrentPricesService = pollCurrentPricesService;
+        this.symbols = symbols;
     }
-
-    @Value("${task.symbols}")
-    Set<String> symbols;
 
     @Scheduled(cron = "${task.cron.current}")
     public void process() {
-        log.info("Start process data for symbols: "+symbols);
+        log.info("Start process data for symbols: " + symbols);
         pollCurrentPricesService.run(symbols);
-        log.info("End process data for symbols: "+symbols);
+        log.info("End process data for symbols: " + symbols);
     }
 }

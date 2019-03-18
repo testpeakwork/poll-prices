@@ -1,5 +1,4 @@
 package com.andersen.iexapis.poll;
-import static org.junit.Assert.assertEquals;
 
 import com.andersen.iexapis.poll.dao.CompanyDao;
 import com.andersen.iexapis.poll.dao.StockDao;
@@ -7,12 +6,10 @@ import com.andersen.iexapis.poll.dto.Company;
 import com.andersen.iexapis.poll.dto.Stock;
 import com.google.cloud.Timestamp;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.gcp.data.datastore.core.DatastoreTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -39,13 +38,14 @@ public class LocalDatastoreTest {
         companyDao.deleteAll();
         stockDao.deleteAll();
     }
+
     @Test
     public void doTest() throws Exception {
         Calendar cal = Calendar.getInstance();
         doSaveCompanyTest(cal.getTime());
         doReadTest1();
-        cal.add(Calendar.HOUR_OF_DAY,2);
-        doSaveCompanyTest( cal.getTime());
+        cal.add(Calendar.HOUR_OF_DAY, 2);
+        doSaveCompanyTest(cal.getTime());
         doReadTest2();
     }
 
@@ -64,16 +64,16 @@ public class LocalDatastoreTest {
         companyDao.save(company);
     }
 
-    private void doReadTest1()  {
+    private void doReadTest1() {
         Company e = companyDao.findById("AAPL").orElse(new Company());
         assertEquals("Apple", e.getName());
-       // assertEquals(1, e.getStocks().size());
+        // assertEquals(1, e.getStocks().size());
     }
 
     private void doReadTest2() {
         Company e = companyDao.findById("AAPL").orElse(new Company());
         assertEquals("Apple", e.getName());
-      //  assertEquals(2, e.getStocks().size());
+        //  assertEquals(2, e.getStocks().size());
     }
 
 }

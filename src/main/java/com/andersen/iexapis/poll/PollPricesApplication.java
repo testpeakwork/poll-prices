@@ -2,7 +2,6 @@ package com.andersen.iexapis.poll;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.gcp.data.datastore.core.DatastoreTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.zankowski.iextrading4j.client.IEXTradingClient;
