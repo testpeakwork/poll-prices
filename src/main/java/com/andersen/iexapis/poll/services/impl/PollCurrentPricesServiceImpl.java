@@ -1,8 +1,10 @@
-package com.andersen.iexapis.poll.services;
+package com.andersen.iexapis.poll.services.impl;
 
 import com.andersen.iexapis.poll.dao.CompanyDao;
 import com.andersen.iexapis.poll.dto.Company;
 import com.andersen.iexapis.poll.dto.Stock;
+import com.andersen.iexapis.poll.services.PollPricesService;
+import com.andersen.iexapis.poll.services.impl.iexloader.IEXTradingService;
 import com.google.cloud.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,12 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class PollCurrentPricesService {
+public class PollCurrentPricesServiceImpl implements PollPricesService {
 
     private final IEXTradingService iexTradingService;
     private final CompanyDao companyDao;
 
-    public PollCurrentPricesService(IEXTradingService iexTradingService, CompanyDao companyDao) {
+    public PollCurrentPricesServiceImpl(IEXTradingService iexTradingService, CompanyDao companyDao) {
         this.iexTradingService = iexTradingService;
         this.companyDao = companyDao;
     }

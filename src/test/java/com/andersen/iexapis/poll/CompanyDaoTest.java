@@ -24,8 +24,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @TestPropertySource("classpath:application-test.properties")
-public class LocalDatastoreTest {
-    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+public class CompanyDaoTest {
 
     @Autowired
     private CompanyDao companyDao;
@@ -40,16 +39,16 @@ public class LocalDatastoreTest {
     }
 
     @Test
-    public void doTest() throws Exception {
+    public void doSaveCompanyTest() {
         Calendar cal = Calendar.getInstance();
-        doSaveCompanyTest(cal.getTime());
-        doReadTest1();
+        saveCompanyPrice(cal.getTime());
+        readAndCheckCompany(1);
         cal.add(Calendar.HOUR_OF_DAY, 2);
-        doSaveCompanyTest(cal.getTime());
-        doReadTest2();
+        saveCompanyPrice(cal.getTime());
+        readAndCheckCompany(2);
     }
 
-    public void doSaveCompanyTest(Date date) {
+    private void saveCompanyPrice(Date date) {
         Company company = new Company();
         company.setSymbol("AAPL");
         company.setName("Apple");
@@ -64,16 +63,9 @@ public class LocalDatastoreTest {
         companyDao.save(company);
     }
 
-    private void doReadTest1() {
+    private void readAndCheckCompany(int expectedCount) {
         Company e = companyDao.findById("AAPL").orElse(new Company());
         assertEquals("Apple", e.getName());
-        // assertEquals(1, e.getStocks().size());
+        assertEquals(expectedCount, e.getStocks().size());
     }
-
-    private void doReadTest2() {
-        Company e = companyDao.findById("AAPL").orElse(new Company());
-        assertEquals("Apple", e.getName());
-        //  assertEquals(2, e.getStocks().size());
-    }
-
 }

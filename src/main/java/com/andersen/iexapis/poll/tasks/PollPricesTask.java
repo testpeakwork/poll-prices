@@ -1,6 +1,6 @@
 package com.andersen.iexapis.poll.tasks;
 
-import com.andersen.iexapis.poll.services.PollCurrentPricesService;
+import com.andersen.iexapis.poll.services.PollPricesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,18 +13,18 @@ import java.util.Set;
 @Slf4j
 public class PollPricesTask {
     private final Set<String> symbols;
-    private final PollCurrentPricesService pollCurrentPricesService;
+    private final PollPricesService pollPricesService;
 
     @Autowired
-    public PollPricesTask(PollCurrentPricesService pollCurrentPricesService, @Value("${task.symbols}") Set<String> symbols) {
-        this.pollCurrentPricesService = pollCurrentPricesService;
+    public PollPricesTask(PollPricesService pollPricesService, @Value("${task.symbols}") Set<String> symbols) {
+        this.pollPricesService = pollPricesService;
         this.symbols = symbols;
     }
 
     @Scheduled(cron = "${task.cron.current}")
     public void process() {
         log.info("Start process data for symbols: " + symbols);
-        pollCurrentPricesService.run(symbols);
+        pollPricesService.run(symbols);
         log.info("End process data for symbols: " + symbols);
     }
 }
